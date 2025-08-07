@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Fun Hub - Your Daily Dose of Awesome</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+    />
+  </head>
+  <body class="bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-2 text-white" href="#">
+          <i class="bi bi-stars text-warning"></i> Random Fun Hub
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item mx-2">
+              <a class="nav-link fw-semibold fs-5 text-white" href="#facts">
+                <i class="bi bi-lightbulb-fill text-info"></i> Facts
+              </a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link fw-semibold fs-5 text-white" href="#quotes">
+                <i class="bi bi-heart-fill text-success"></i> Quotes
+              </a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link fw-semibold fs-5 text-white" href="#weather">
+                <i class="bi bi-cloud-sun-fill text-warning"></i> Weather
+              </a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link fw-semibold fs-5 text-white" href="#fun">
+                <i class="bi bi-emoji-smile-fill text-primary"></i> Fun Zone
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid bg-gradient text-white py-5 text-center">
+      <div class="container">
+        <h1 class="display-2 fw-bold mb-4 text-light">
+          <i class="bi bi-emoji-smile fs-1 text-warning"></i> Welcome to Random
+          Fun Hub!
+        </h1>
+        <p class="lead mb-5 fs-3">
+          Discover amazing facts, get inspired, check the weather, and have some
+          fun!
+        </p>
+        <button
+          class="btn btn-warning btn-lg px-5 py-3 fw-bold fs-5 shadow-lg"
+          onclick="loadAllContent()"
+        >
+          <i class="bi bi-arrow-clockwise me-2"></i> Load Fresh Content
+        </button>
+      </div>
+    </div>
+
+    <div class="container my-5">
+      <section id="facts" class="mb-5">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-lg">
+              <div class="card-header bg-info text-white text-center py-3">
+                <h3 class="card-title mb-0 fs-2 fw-bold">
+                  <i class="bi bi-lightbulb-fill me-2"></i> Random Fun Fact
+                </h3>
+              </div>
+              <div class="card-body p-5 bg-light">
+                <div id="factContent" class="text-center py-4">
+                  <div
+                    class="spinner-border text-info"
+                    role="status"
+                    style="width: 4rem; height: 4rem"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <div class="text-center mt-4">
+                  <button
+                    class="btn btn-info btn-lg px-5 py-3 fs-5 fw-bold shadow"
+                    onclick="loadRandomFact()"
+                  >
+                    <i class="bi bi-arrow-repeat me-2"></i> Get New Fact
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="quotes" class="mb-5">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-lg">
+              <div class="card-header bg-success text-white text-center py-3">
+                <h3 class="card-title mb-0 fs-2 fw-bold">
+                  <i class="bi bi-heart-fill me-2"></i> Daily Inspiration
+                </h3>
+              </div>
+              <div class="card-body p-5 bg-light">
+                <div id="quoteContent" class="text-center py-4">
+                  <div
+                    class="spinner-border text-success"
+                    role="status"
+                    style="width: 4rem; height: 4rem"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <div class="text-center mt-4">
+                  <button
+                    class="btn btn-success btn-lg px-5 py-3 fs-5 fw-bold shadow"
+                    onclick="loadInspirationalQuote()"
+                  >
+                    <i class="bi bi-arrow-repeat me-2"></i> Get New Quote
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="weather" class="mb-5">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-lg">
+              <div class="card-header bg-warning text-dark text-center py-3">
+                <h3 class="card-title mb-0 fs-2 fw-bold">
+                  <i class="bi bi-cloud-sun-fill me-2"></i> Weather Update
+                </h3>
+              </div>
+              <div class="card-body p-5 bg-light">
+                <div class="row mb-4">
+                  <div class="col-md-8">
+                    <input
+                      type="text"
+                      id="cityInput"
+                      class="form-control form-control-lg fs-5"
+                      placeholder="Enter city name (e.g., London)"
+                      value="London"
+                    />
+                  </div>
+                  <div class="col-md-4">
+                    <button
+                      class="btn btn-warning btn-lg w-100 fs-5 fw-bold shadow"
+                      onclick="loadWeather()"
+                    >
+                      <i class="bi bi-search me-2"></i> Get Weather
+                    </button>
+                  </div>
+                </div>
+                <div id="weatherContent" class="text-center py-4">
+                  <div
+                    class="spinner-border text-warning"
+                    role="status"
+                    style="width: 4rem; height: 4rem"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="fun" class="mb-5">
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="card border-0 shadow-lg h-100">
+              <div class="card-header bg-primary text-white text-center py-3">
+                <h4 class="card-title mb-0 fs-3 fw-bold">
+                  <i class="bi bi-emoji-laughing-fill me-2"></i> Random Joke
+                </h4>
+              </div>
+              <div class="card-body p-4 bg-light d-flex flex-column">
+                <div
+                  id="jokeContent"
+                  class="text-center flex-grow-1 d-flex align-items-center justify-content-center"
+                >
+                  <div
+                    class="spinner-border text-primary"
+                    role="status"
+                    style="width: 4rem; height: 4rem"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <div class="text-center mt-3">
+                  <button
+                    class="btn btn-primary btn-lg px-4 fs-5 fw-bold shadow"
+                    onclick="loadRandomJoke()"
+                  >
+                    <i class="bi bi-arrow-repeat me-2"></i> New Joke
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card border-0 shadow-lg h-100">
+              <div class="card-header bg-secondary text-white text-center py-3">
+                <h4 class="card-title mb-0 fs-3 fw-bold">
+                  <i class="bi bi-heart-eyes-fill me-2"></i> Random Cat
+                </h4>
+              </div>
+              <div class="card-body p-4 bg-light d-flex flex-column">
+                <div
+                  id="catContent"
+                  class="text-center flex-grow-1 d-flex align-items-center justify-content-center"
+                >
+                  <div
+                    class="spinner-border text-secondary"
+                    role="status"
+                    style="width: 4rem; height: 4rem"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <div class="text-center mt-3">
+                  <button
+                    class="btn btn-secondary btn-lg px-4 fs-5 fw-bold shadow"
+                    onclick="loadRandomCat()"
+                  >
+                    <i class="bi bi-arrow-repeat me-2"></i> New Cat
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="activity" class="mb-5">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-lg">
+              <div class="card-header bg-danger text-white text-center py-3">
+                <h3 class="card-title mb-0 fs-2 fw-bold">
+                  <i class="bi bi-activity me-2"></i> Random Activity Suggestion
+                </h3>
+              </div>
+              <div class="card-body p-5 bg-light">
+                <div id="activityContent" class="text-center py-4">
+                  <div
+                    class="spinner-border text-danger"
+                    role="status"
+                    style="width: 4rem; height: 4rem"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <div class="text-center mt-4">
+                  <button
+                    class="btn btn-danger btn-lg px-5 py-3 fs-5 fw-bold shadow"
+                    onclick="loadRandomActivity()"
+                  >
+                    <i class="bi bi-arrow-repeat me-2"></i> New Activity
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="bg-dark text-white py-5 mt-5">
+      <div class="container text-center">
+        <h4 class="mb-3 text-warning">
+          <i class="bi bi-code-slash me-2"></i> Built with Bootstrap & Love for
+          College Assignment
+        </h4>
+        <p class="mb-0 fs-5 text-light">Powered by multiple fun APIs</p>
+        <div class="mt-4">
+          <i class="bi bi-heart-fill text-danger fs-4 me-2"></i>
+          <span class="text-muted fs-5">Made with passion for learning</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
