@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>jQuery Image Gallery & Slider</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>jQuery Image Gallery & Slider</h1>
+      <p class="tag">Assignment: Add interactive elements using jQuery</p>
+    </header>
+
+    <main>
+      <!-- Slider -->
+      <section class="slider" id="slider" aria-label="Image Slider">
+        <div class="slides" aria-live="polite"></div>
+        <button class="nav prev" aria-label="Previous slide">&#10094;</button>
+        <button class="nav next" aria-label="Next slide">&#10095;</button>
+        <div class="dots" role="tablist" aria-label="Slide indicators"></div>
+        <div class="controls">
+          <button id="toggleAutoplay" aria-pressed="true">Pause</button>
+        </div>
+        <div class="caption" id="slideCaption"></div>
+      </section>
+
+      <!-- Gallery Grid -->
+      <section class="gallery" aria-label="Image Gallery">
+        <h2>Gallery</h2>
+        <div id="galleryGrid" class="gallery-grid"></div>
+      </section>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div
+      id="lightbox"
+      class="lightbox"
+      aria-hidden="true"
+      role="dialog"
+      aria-label="Image viewer"
+    >
+      <div class="lightbox-backdrop" data-close="true"></div>
+      <div class="lightbox-content" role="document">
+        <button class="lightbox-close" aria-label="Close" data-close="true">
+          &times;
+        </button>
+        <img id="lightboxImg" alt="" />
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+        <button class="lightbox-nav prev" aria-label="Previous image">
+          &#10094;
+        </button>
+        <button class="lightbox-nav next" aria-label="Next image">
+          &#10095;
+        </button>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      if (!window.jQuery) {
+        var s = document.createElement("script");
+        s.src = "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js";
+        document.head.appendChild(s);
+      }
+    </script>
+    <script src="script.js" defer></script>
+  </body>
+</html>
