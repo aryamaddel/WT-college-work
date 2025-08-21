@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Customer Feedback</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        margin: 24px;
+        background: #f9f9f9;
+        color: #333;
+      }
+      .card {
+        max-width: 680px;
+        margin: 0 auto;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+      label {
+        display: block;
+        margin: 12px 0 6px;
+        font-weight: 600;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        background: #fff;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #333;
+      }
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .row {
+        display: flex;
+        gap: 12px;
+      }
+      .row > div { flex: 1; }
+      button {
+        margin-top: 16px;
+        background: #fff;
+        color: #333;
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:hover { background: #f2f2f2; }
+      .hint, .footer { color: #888; font-size: 12px; }
+      .footer { text-align: center; margin-top: 24px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Customer Feedback</h1>
+      <p class="hint">Tell us how we did. Fields marked * are required.</p>
+      <form method="post" action="submit">
+        <div class="row">
+          <div>
+            <label for="name">Name *</label>
+            <input type="text" id="name" name="name" required maxlength="100" />
+          </div>
+          <div>
+            <label for="email">Email *</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              maxlength="200"
+            />
+          </div>
+        </div>
+
+        <label for="rating">Rating (1-5) *</label>
+        <select id="rating" name="rating" required>
+          <option value="">Select…</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+
+        <label for="comments">Comments</label>
+        <textarea
+          id="comments"
+          name="comments"
+          maxlength="1000"
+          placeholder="Share details about your experience..."
+        ></textarea>
+
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+    <p class="footer">Powered by Jetty + Servlet</p>
+  </body>
+</html>
