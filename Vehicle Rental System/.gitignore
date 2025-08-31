@@ -1,0 +1,43 @@
+# Ignore target directory
+/target/
+
+# Ignore Maven build files
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Ignore compiled Java classes
+*.class
+
+# Ignore IntelliJ IDEA project files
+.idea/
+*.iml
+
+# Ignore Eclipse project files
+.project
+.classpath
+.settings/
+
+# Ignore NetBeans project files
+nbproject/
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore temporary files
+*.~
+*.orig
+*.rej
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore JAR/WAR/EAR files
+*.jar
+*.war
+*.ear
+
+# Ignore database properties
+src/main/webapp/WEB-INF/database.properties
