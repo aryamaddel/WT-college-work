@@ -1,98 +1,61 @@
-// Helper to fetch and update lists
+// Generic fetch + render
 async function fetchAndRender(endpoint, listId, renderFn) {
   const res = await fetch(endpoint);
   const data = await res.json();
   const list = document.getElementById(listId);
   list.innerHTML = '';
-  data.forEach(item => list.appendChild(renderFn(item)));
+  data.forEach(item => list.appendChild(renderFn(item, endpoint, listId, renderFn)));
 }
 
-// Render doctor item
-function renderDoctor(doctor) {
+// Create list item with delete button
+function makeItem(text, endpoint, id, refreshFn, listId) {
   const li = document.createElement('li');
-  li.textContent = `${doctor.id}: ${doctor.name} (${doctor.specialty})`;
+  li.textContent = text;
   const delBtn = document.createElement('button');
   delBtn.textContent = 'Delete';
   delBtn.onclick = async () => {
-    await fetch(`/doctors/${doctor.id}`, { method: 'DELETE' });
-    fetchAndRender('/doctors', 'doctor-list', renderDoctor);
+    await fetch(`${endpoint}/${id}`, { method: 'DELETE' });
+    fetchAndRender(endpoint, listId, refreshFn);
   };
   li.appendChild(delBtn);
   return li;
 }
 
-// Render patient item
-function renderPatient(patient) {
-  const li = document.createElement('li');
-  li.textContent = `${patient.id}: ${patient.name} (Doctor: ${patient.doctorId})`;
-  const delBtn = document.createElement('button');
-  delBtn.textContent = 'Delete';
-  delBtn.onclick = async () => {
-    await fetch(`/patients/${patient.id}`, { method: 'DELETE' });
-    fetchAndRender('/patients', 'patient-list', renderPatient);
+// Renderers
+const renderDoctor = d => makeItem(
+  `${d.id}: ${d.name} (${d.specialty})`,
+  '/doctors', d.id, renderDoctor, 'doctor-list'
+);
+
+const renderPatient = p => makeItem(
+  `${p.id}: ${p.name} (Doctor: ${p.doctorId})`,
+  '/patients', p.id, renderPatient, 'patient-list'
+);
+
+const renderAppointment = a => makeItem(
+  `${a.id}: Patient ${a.patientId}, Doctor ${a.doctorId}, Date: ${a.date}`,
+  '/appointments', a.id, renderAppointment, 'appointment-list'
+);
+
+// Generic form handler
+function handleForm(formId, endpoint, listId, renderFn, fields) {
+  document.getElementById(formId).onsubmit = async e => {
+    e.preventDefault();
+    const body = Object.fromEntries(fields.map(f => [f, document.getElementById(`${formId}-${f}`).value]));
+    await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    fetchAndRender(endpoint, listId, renderFn);
+    e.target.reset();
   };
-  li.appendChild(delBtn);
-  return li;
 }
 
-// Render appointment item
-function renderAppointment(appt) {
-  const li = document.createElement('li');
-  li.textContent = `${appt.id}: Patient ${appt.patientId}, Doctor ${appt.doctorId}, Date: ${appt.date}`;
-  const delBtn = document.createElement('button');
-  delBtn.textContent = 'Delete';
-  delBtn.onclick = async () => {
-    await fetch(`/appointments/${appt.id}`, { method: 'DELETE' });
-    fetchAndRender('/appointments', 'appointment-list', renderAppointment);
-  };
-  li.appendChild(delBtn);
-  return li;
-}
-
-// Form handlers
-
-document.getElementById('doctor-form').onsubmit = async e => {
-  e.preventDefault();
-  const id = document.getElementById('doctor-id').value;
-  const name = document.getElementById('doctor-name').value;
-  const specialty = document.getElementById('doctor-specialty').value;
-  await fetch('/doctors', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, name, specialty })
-  });
-  fetchAndRender('/doctors', 'doctor-list', renderDoctor);
-  e.target.reset();
-};
-
-document.getElementById('patient-form').onsubmit = async e => {
-  e.preventDefault();
-  const id = document.getElementById('patient-id').value;
-  const name = document.getElementById('patient-name').value;
-  const doctorId = document.getElementById('patient-doctorId').value;
-  await fetch('/patients', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, name, doctorId })
-  });
-  fetchAndRender('/patients', 'patient-list', renderPatient);
-  e.target.reset();
-};
-
-document.getElementById('appointment-form').onsubmit = async e => {
-  e.preventDefault();
-  const id = document.getElementById('appointment-id').value;
-  const patientId = document.getElementById('appointment-patientId').value;
-  const doctorId = document.getElementById('appointment-doctorId').value;
-  const date = document.getElementById('appointment-date').value;
-  await fetch('/appointments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id, patientId, doctorId, date })
-  });
-  fetchAndRender('/appointments', 'appointment-list', renderAppointment);
-  e.target.reset();
-};
+// Bind forms
+handleForm('doctor-form', '/doctors', 'doctor-list', renderDoctor, ['id','name','specialty']);
+handleForm('patient-form', '/patients', 'patient-list', renderPatient, ['id','name','doctorId']);
+handleForm('appointment-form', '/appointments', 'appointment-list', renderAppointment, ['id','patientId','doctorId','date']);
 
 // Initial render
 fetchAndRender('/doctors', 'doctor-list', renderDoctor);
