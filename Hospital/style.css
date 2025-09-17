@@ -1,0 +1,58 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+section {
+  background: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  min-width: 300px;
+}
+h1 {
+  text-align: center;
+  margin-top: 1rem;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+input, button {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  margin-bottom: 0.5rem;
+  background: #f0f0f0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+li button {
+  margin-left: 0.5rem;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0.3rem 0.7rem;
+}
+li button.edit {
+  background: #3498db;
+}
