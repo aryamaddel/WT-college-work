@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Database</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #fafafa;
+        color: #222;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 25px;
+      }
+
+      .form-container {
+        margin-bottom: 30px;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .form-group {
+        flex: 1;
+        min-width: 180px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 14px;
+        color: #444;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        background: #fff;
+      }
+
+      textarea {
+        height: 70px;
+        resize: vertical;
+      }
+
+      button {
+        background: #222;
+        color: #fff;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+      }
+
+      button:hover {
+        background: #444;
+      }
+
+      .btn-update {
+        background: #2d7a46;
+      }
+
+      .btn-update:hover {
+        background: #25613a;
+      }
+
+      .btn-delete {
+        background: #b33434;
+      }
+
+      .btn-delete:hover {
+        background: #912727;
+      }
+
+      .btn-cancel {
+        background: #777;
+      }
+
+      .btn-cancel:hover {
+        background: #555;
+      }
+
+      .movies-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+      }
+
+      .movie-card {
+        border: 1px solid #e1e1e1;
+        border-radius: 8px;
+        padding: 16px;
+        background: #fff;
+        transition: border 0.2s;
+      }
+
+      .movie-card:hover {
+        border-color: #bbb;
+      }
+
+      .movie-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .movie-info {
+        margin: 3px 0;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .movie-description {
+        margin-top: 8px;
+        font-size: 14px;
+        line-height: 1.4;
+        color: #666;
+      }
+
+      .movie-actions {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+      }
+
+      .rating {
+        display: inline-block;
+        padding: 2px 6px;
+        font-size: 12px;
+        font-weight: 500;
+        background: #ffeb3b;
+        border-radius: 4px;
+        margin-left: 6px;
+      }
+
+      .loading {
+        text-align: center;
+        color: #666;
+        font-size: 16px;
+        margin: 30px 0;
+      }
+
+      .error,
+      .success {
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin: 12px 0;
+        font-size: 14px;
+      }
+
+      .error {
+        background: #fdecea;
+        color: #a02727;
+      }
+
+      .success {
+        background: #e7f7ec;
+        color: #2f7a3d;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Movie Database</h1>
+
+      <div class="form-container">
+        <h2 id="form-title">Add New Movie</h2>
+        <div id="message"></div>
+
+        <form id="movie-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="title">Title *</label>
+              <input type="text" id="title" name="title" required />
+            </div>
+            <div class="form-group">
+              <label for="director">Director *</label>
+              <input type="text" id="director" name="director" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="year">Year *</label>
+              <input
+                type="number"
+                id="year"
+                name="year"
+                min="1900"
+                max="2030"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="genre">Genre *</label>
+              <select id="genre" name="genre" required>
+                <option value="">Select Genre</option>
+                <option value="Action">Action</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Drama">Drama</option>
+                <option value="Horror">Horror</option>
+                <option value="Romance">Romance</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Animation">Animation</option>
+                <option value="Documentary">Documentary</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="rating">Rating (1-10)</label>
+              <input
+                type="number"
+                id="rating"
+                name="rating"
+                min="1"
+                max="10"
+                step="0.1"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              id="description"
+              name="description"
+              placeholder="Movie description..."
+            ></textarea>
+          </div>
+
+          <div>
+            <button type="submit" id="submit-btn">Add Movie</button>
+            <button type="button" id="cancel-btn" class="btn-cancel hidden">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div id="movies-container">
+        <div class="loading" id="loading">Loading movies...</div>
+        <div id="movies-list" class="movies-grid"></div>
+      </div>
+    </div>
+
+    <script>
+      let currentEditId = null;
+
+      // DOM Elements
+      const form = document.getElementById("movie-form");
+      const formTitle = document.getElementById("form-title");
+      const submitBtn = document.getElementById("submit-btn");
+      const cancelBtn = document.getElementById("cancel-btn");
+      const messageDiv = document.getElementById("message");
+      const loadingDiv = document.getElementById("loading");
+      const moviesList = document.getElementById("movies-list");
+
+      // Event Listeners
+      form.addEventListener("submit", handleSubmit);
+      cancelBtn.addEventListener("click", resetForm);
+
+      // Load movies on page load
+      loadMovies();
+
+      async function handleSubmit(e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const movieData = Object.fromEntries(formData.entries());
+
+        // Convert rating to number if provided
+        if (movieData.rating) {
+          movieData.rating = parseFloat(movieData.rating);
+        }
+        movieData.year = parseInt(movieData.year);
+
+        try {
+          let response;
+          if (currentEditId) {
+            response = await fetch(`/api/movies/${currentEditId}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(movieData),
+            });
+          } else {
+            response = await fetch("/api/movies", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(movieData),
+            });
+          }
+
+          if (response.ok) {
+            showMessage(
+              currentEditId
+                ? "Movie updated successfully!"
+                : "Movie added successfully!",
+              "success"
+            );
+            form.reset();
+            resetForm();
+            loadMovies();
+          } else {
+            const error = await response.json();
+            showMessage(error.message, "error");
+          }
+        } catch (error) {
+          showMessage("Error: " + error.message, "error");
+        }
+      }
+
+      async function loadMovies() {
+        try {
+          loadingDiv.style.display = "block";
+          moviesList.innerHTML = "";
+
+          const response = await fetch("/api/movies");
+          const movies = await response.json();
+
+          loadingDiv.style.display = "none";
+
+          if (movies.length === 0) {
+            moviesList.innerHTML =
+              '<p style="text-align: center; color: #666; margin: 40px 0;">No movies found. Add some movies to get started!</p>';
+            return;
+          }
+
+          movies.forEach((movie) => {
+            const movieCard = createMovieCard(movie);
+            moviesList.appendChild(movieCard);
+          });
+        } catch (error) {
+          loadingDiv.style.display = "none";
+          showMessage("Error loading movies: " + error.message, "error");
+        }
+      }
+
+      function createMovieCard(movie) {
+        const card = document.createElement("div");
+        card.className = "movie-card";
+
+        card.innerHTML = `
+                <div class="movie-title">${movie.title}</div>
+                <div class="movie-info"><strong>Director:</strong> ${
+                  movie.director
+                }</div>
+                <div class="movie-info"><strong>Year:</strong> ${
+                  movie.year
+                }</div>
+                <div class="movie-info"><strong>Genre:</strong> ${
+                  movie.genre
+                }</div>
+                ${
+                  movie.rating
+                    ? `<div class="movie-info"><strong>Rating:</strong> <span class="rating">${movie.rating}/10</span></div>`
+                    : ""
+                }
+                ${
+                  movie.description
+                    ? `<div class="movie-description">${movie.description}</div>`
+                    : ""
+                }
+                <div class="movie-actions">
+                    <button onclick="editMovie('${
+                      movie._id
+                    }')" class="btn-update">Edit</button>
+                    <button onclick="deleteMovie('${
+                      movie._id
+                    }')" class="btn-delete">Delete</button>
+                </div>
+            `;
+
+        return card;
+      }
+
+      async function editMovie(id) {
+        try {
+          const response = await fetch(`/api/movies/${id}`);
+          const movie = await response.json();
+
+          // Fill form with movie data
+          document.getElementById("title").value = movie.title;
+          document.getElementById("director").value = movie.director;
+          document.getElementById("year").value = movie.year;
+          document.getElementById("genre").value = movie.genre;
+          document.getElementById("rating").value = movie.rating || "";
+          document.getElementById("description").value =
+            movie.description || "";
+
+          // Update form UI
+          currentEditId = id;
+          formTitle.textContent = "Update Movie";
+          submitBtn.textContent = "Update Movie";
+          cancelBtn.classList.remove("hidden");
+
+          // Scroll to form
+          document
+            .querySelector(".form-container")
+            .scrollIntoView({ behavior: "smooth" });
+        } catch (error) {
+          showMessage(
+            "Error loading movie for edit: " + error.message,
+            "error"
+          );
+        }
+      }
+
+      async function deleteMovie(id) {
+        if (confirm("Are you sure you want to delete this movie?")) {
+          try {
+            const response = await fetch(`/api/movies/${id}`, {
+              method: "DELETE",
+            });
+
+            if (response.ok) {
+              showMessage("Movie deleted successfully!", "success");
+              loadMovies();
+            } else {
+              const error = await response.json();
+              showMessage(error.message, "error");
+            }
+          } catch (error) {
+            showMessage("Error deleting movie: " + error.message, "error");
+          }
+        }
+      }
+
+      function resetForm() {
+        currentEditId = null;
+        formTitle.textContent = "Add New Movie";
+        submitBtn.textContent = "Add Movie";
+        cancelBtn.classList.add("hidden");
+        form.reset();
+        messageDiv.innerHTML = "";
+      }
+
+      function showMessage(message, type) {
+        messageDiv.innerHTML = `<div class="${type}">${message}</div>`;
+        setTimeout(() => {
+          messageDiv.innerHTML = "";
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>
