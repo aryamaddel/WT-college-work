@@ -11,10 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/moviedb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect("mongodb://localhost:27017/moviedb");
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
